@@ -1,0 +1,65 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Character {
+  id            Int    @id @default(autoincrement())
+  name          String
+  description   String
+  weaponId      Int?
+  birthPlaceId  Int?
+  personality   String
+  bestFriend    Int?
+  enemy         Int?
+  groupId       Int?
+  favoritePlace Int?
+
+  Weapon Weapon?
+
+  place Place? @relation(fields: [favoritePlace], references: [id])
+  city  City?  @relation(fields: [birthPlaceId], references: [id])
+  group Group? @relation(fields: [groupId], references: [id])
+}
+
+model City {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+
+  Place Place? @relation(fields: [placeId], references: [id])
+
+  placeId   Int?
+  Character Character[]
+}
+
+model Place {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  characterId Int?
+  cityId      Int
+  City        City[]
+  character   Character[]
+}
+
+model Group {
+  id          Int         @id @default(autoincrement())
+  name        String
+  behalf      String?
+  description String
+  Character   Character[]
+}
+
+model Weapon {
+  id          Int        @id @default(autoincrement())
+  name        String
+  power       String
+  description String
+  characterId Int?       @unique
+  character   Character? @relation(fields: [characterId], references: [id])
+}
