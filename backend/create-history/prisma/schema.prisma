@@ -8,22 +8,28 @@ generator client {
 }
 
 model Character {
-  id            Int    @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   name          String
   description   String
   weaponId      Int?
   birthPlaceId  Int?
   personality   String
-  bestFriend    Int?
-  enemy         Int?
   groupId       Int?
-  favoritePlace Int?
+  favoritePlaceId Int?
+  relation      Relations[]
 
   Weapon Weapon?
 
-  place Place? @relation(fields: [favoritePlace], references: [id])
-  city  City?  @relation(fields: [birthPlaceId], references: [id])
+  favoritePlace Place? @relation(fields: [favoritePlaceId], references: [id])
+  birthPlace  City?  @relation(fields: [birthPlaceId], references: [id])
   group Group? @relation(fields: [groupId], references: [id])
+}
+
+model Relations {
+  id                   Int        @id @default(autoincrement())
+  relationshipPersonId Int
+  Character            Character? @relation(fields: [characterId], references: [id])
+  characterId          Int?
 }
 
 model City {
@@ -31,9 +37,7 @@ model City {
   name        String
   description String
 
-  Place Place? @relation(fields: [placeId], references: [id])
-
-  placeId   Int?
+  place     Place[]
   Character Character[]
 }
 
@@ -42,9 +46,10 @@ model Place {
   name        String
   description String
   characterId Int?
-  cityId      Int
-  City        City[]
+  cityId      Int?
   character   Character[]
+
+  City City? @relation(fields: [cityId], references: [id])
 }
 
 model Group {

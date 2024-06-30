@@ -1,33 +1,37 @@
-import { IsInt, IsString } from "class-validator";
+import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class CharacterDto {
     @IsInt()
+    @IsOptional()
     id: number
 
     @IsString()
     name: string;
 
     @IsInt()
-    weapon?: number;
+    @IsOptional()
+    weaponId: number;
 
     @IsString()
+    @IsOptional()
     description: string;
 
     @IsInt()
-    birthPlace?: number;
+    @IsOptional()
+    birthPlace: number;
 
     @IsString()
     personality: string;
 
     @IsInt()
-    bestFriend?: number
+    @IsOptional()
+    relation: number
 
     @IsInt()
-    enemy?: number;
+    @IsOptional()
+    groupId: number
 
     @IsInt()
-    group?: number
-
-    @IsInt()
-    favoritePlace?: number
+    @IsOptional()
+    favoritePlaceId: number
 }

@@ -1,19 +1,17 @@
 import { IsInt, IsOptional, IsString } from "class-validator";
 
-export class weaponDto {
+export class placeDto {
     @IsInt()
-    id: number
-
-    @IsInt()
-    name: string
+    @IsOptional()
+    id: number;
 
     @IsString()
-    power: string;
+    name: string;
 
     @IsString()
     description: string;
 
     @IsInt()
     @IsOptional()
-    characterId: number
+    cityId: number
 }
