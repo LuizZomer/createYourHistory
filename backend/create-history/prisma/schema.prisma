@@ -9,8 +9,8 @@ generator client {
 
 model History {
   id          Int         @id @default(autoincrement())
+  name        String
   description String
-  characterId Int
   character   Character[]
   weapon      Weapon[]
   city        City[]

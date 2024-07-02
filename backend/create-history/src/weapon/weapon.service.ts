@@ -13,6 +13,7 @@ export class WeaponService {
           name: weapon.name,
           description: weapon.description,
           power: weapon.power,
+          characterId: weapon.characterId || null,
           historyId: weapon.historyId
         }
       })
@@ -68,6 +69,7 @@ export class WeaponService {
       data:{
         name: weapon.name,
         power: weapon.power,
+        characterId: weapon.characterId || null,
         description: weapon.description
       },
       where:{

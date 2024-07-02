@@ -7,9 +7,9 @@ export class CharacterController {
 
     constructor(readonly characterService:CharacterService){}
 
-    @Get()
-    findManyCharacter(){
-        return this.characterService.findManyCharactersService()
+    @Get(':id')
+    findManyCharacter(@Param('id') id:string){
+        return this.characterService.findManyCharactersService(+id)
     }
 
     @HttpCode(HttpStatus.CREATED)
@@ -23,12 +23,9 @@ export class CharacterController {
         return this.characterService.updateCharacterService(character)
     }
 
-    @Get(':id')
-    getById(@Param('id') id: string){
-        if(Number(id)){
-            return this.characterService.getById(+id)
-        }
-        throw new  BadRequestException('id precisa ser um numero')
+    @Get(':historyId/:characterId')
+    getById(@Param('historyId') historyId: string, @Param('characterId') characterId: string){
+        return this.characterService.getById({historyId: +historyId, characterId: +characterId})
     }
 
     @Delete(':id')

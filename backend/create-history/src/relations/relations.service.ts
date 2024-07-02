@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { relationDto } from './dto/relation.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -11,7 +11,7 @@ export class RelationsService {
       await this.prisma.relations.create({
         data:{
           relationType: relation.relationType,
-          characterId: relation.relationCharacterId,
+          characterId: relation.characterId,
           relationCharacterId: relation.relationCharacterId,
         }
       });
@@ -27,15 +27,23 @@ export class RelationsService {
     return await this.prisma.relations.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} relation`;
-  }
+  async remove(id: number) {
+    const relationId = await this.prisma.relations.findFirst({
+      select:{
+        id: true
+      },
+      where:{
+        id
+      }
+    })
 
-  update(relation: relationDto) {
-    return `This action updates a ${relation.id} relation`;
-  }
+    if(!relationId) 
+      throw new HttpException("Lugar não encontrado", HttpStatus.NOT_FOUND) 
 
-  remove(id: number) {
-    return `This action removes a #${id} relation`;
+    return await this.prisma.relations.delete({
+      where: {
+        id
+      }
+    }) 
   }
 }

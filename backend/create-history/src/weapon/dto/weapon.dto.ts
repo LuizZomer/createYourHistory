@@ -2,9 +2,10 @@ import { IsInt, IsOptional, IsString } from "class-validator";
 
 export class weaponDto {
     @IsInt()
+    @IsOptional()
     id: number
 
-    @IsInt()
+    @IsString()
     name: string
 
     @IsString()

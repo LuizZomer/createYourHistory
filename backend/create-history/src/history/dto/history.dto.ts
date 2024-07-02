@@ -1,6 +1,7 @@
 import { IsInt, IsOptional, IsString } from "class-validator";
 
-export class cityDto {
+export class historyDto {
+    
     @IsInt()
     @IsOptional()
     id: number;
@@ -10,12 +11,4 @@ export class cityDto {
 
     @IsString()
     description: string;
-
-    @IsInt()
-    @IsOptional()
-    placeId: number;
-
-    @IsInt()
-    @IsOptional()
-    historyId: number
 }

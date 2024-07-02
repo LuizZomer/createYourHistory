@@ -55,7 +55,7 @@ export class CharacterService {
 
     }
 
-    async findManyCharactersService(){
+    async findManyCharactersService(id: number){
         return await this.prisma.character.findMany({
             include:{
                 weapon: true,
@@ -64,6 +64,9 @@ export class CharacterService {
                 birthPlace: true,
                 relations: true,
                 related: true,
+            },
+            where:{
+                historyId: id
             }
         })
     }
@@ -97,17 +100,18 @@ export class CharacterService {
         
     }
 
-    async getById(id: number){
-        const characterId = await this.prisma.character.findFirst({
+    async getById({historyId, characterId}: {historyId: number, characterId: number}){
+        const characterIdRes = await this.prisma.character.findFirst({
             select:{
                 id: true
             },
             where:{
-                id
+                id: characterId,
+                historyId: historyId
             }
         })
 
-        if(!characterId){
+        if(!characterIdRes){
             throw new HttpException("Id não encontrado", HttpStatus.NOT_FOUND)
         }
 
@@ -116,7 +120,8 @@ export class CharacterService {
                 weapon: true
             },
             where: {
-                id
+                id: characterId,
+                historyId,
             },
         }) 
     } 

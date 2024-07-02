@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { placeDto } from './dto/place.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -42,7 +42,7 @@ export class PlaceService {
   }
 
   async update(place: placeDto) {
-    if(!place.id) throw new BadRequestException
+    if(!place.id) throw new HttpException("Id não enviado", HttpStatus.BAD_REQUEST)
 
     const placeId = await this.prisma.place.findFirst({
       select:{
@@ -51,7 +51,7 @@ export class PlaceService {
       where:{
         id: place.id
       }
-    }) 
+    })     
 
     if(!placeId) 
       throw new HttpException("Id não existente", HttpStatus.BAD_REQUEST)    

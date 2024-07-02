@@ -8,9 +8,10 @@ import { GroupModule } from './group/group.module';
 import { PlaceModule } from './place/place.module';
 import { CityModule } from './city/city.module';
 import { RelationsModule } from './relations/relations.module';
+import { HistoryModule } from './history/history.module';
 
 @Module({
-  imports: [CharacterModule, PrismaModule, WeaponModule, GroupModule, PlaceModule, CityModule, RelationsModule],
+  imports: [CharacterModule, PrismaModule, WeaponModule, GroupModule, PlaceModule, CityModule, RelationsModule, HistoryModule],
   controllers: [AppController],
   providers: [AppService],
 })
