@@ -25,7 +25,11 @@ export class CharacterDto {
 
     @IsInt()
     @IsOptional()
-    relation: number
+    relationId: number
+
+    @IsInt()
+    @IsOptional()
+    relationshipPerson: number
 
     @IsInt()
     @IsOptional()
@@ -34,4 +38,8 @@ export class CharacterDto {
     @IsInt()
     @IsOptional()
     favoritePlaceId: number
+
+    @IsInt()
+    @IsOptional()
+    historyId: number
 }

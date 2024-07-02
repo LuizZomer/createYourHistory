@@ -14,4 +14,8 @@ export class placeDto {
     @IsInt()
     @IsOptional()
     cityId: number
+
+    @IsInt()
+    @IsOptional()
+    historyId: number
 }

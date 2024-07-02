@@ -7,57 +7,83 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model History {
+  id          Int         @id @default(autoincrement())
+  description String
+  characterId Int
+  character   Character[]
+  weapon      Weapon[]
+  city        City[]
+  place       Place[]
+  group       Group[]
+}
+
 model Character {
-  id            Int         @id @default(autoincrement())
-  name          String
-  description   String
-  weaponId      Int?
-  birthPlaceId  Int?
-  personality   String
-  groupId       Int?
+  id              Int    @id @default(autoincrement())
+  name            String
+  description     String
+  weaponId        Int?
+  birthPlaceId    Int?
+  personality     String
+  groupId         Int?
   favoritePlaceId Int?
-  relation      Relations[]
+  relationId      Int?
+  historyId       Int
 
-  Weapon Weapon?
+  weapon Weapon?
 
-  favoritePlace Place? @relation(fields: [favoritePlaceId], references: [id])
-  birthPlace  City?  @relation(fields: [birthPlaceId], references: [id])
-  group Group? @relation(fields: [groupId], references: [id])
+  relations Relations[] @relation("CharacterToRelations1")
+  related   Relations[] @relation("CharacterToRelations2")
+
+  favoritePlace Place?  @relation(fields: [favoritePlaceId], references: [id])
+  birthPlace    City?   @relation(fields: [birthPlaceId], references: [id])
+  group         Group?  @relation(fields: [groupId], references: [id])
+  History       History @relation(fields: [historyId], references: [id])
 }
 
 model Relations {
-  id                   Int        @id @default(autoincrement())
-  relationshipPersonId Int
-  Character            Character? @relation(fields: [characterId], references: [id])
-  characterId          Int?
+  id                  Int    @id @default(autoincrement())
+  relationType        String
+  characterId         Int
+  relationCharacterId Int
+
+  character1 Character @relation("CharacterToRelations1", fields: [characterId], references: [id])
+  character2 Character @relation("CharacterToRelations2", fields: [relationCharacterId], references: [id])
 }
 
 model City {
   id          Int    @id @default(autoincrement())
   name        String
   description String
+  historyId   Int
 
   place     Place[]
   Character Character[]
+  history   History     @relation(fields: [historyId], references: [id])
 }
 
 model Place {
-  id          Int         @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
   description String
   characterId Int?
   cityId      Int?
-  character   Character[]
+  historyId   Int
 
-  City City? @relation(fields: [cityId], references: [id])
+  character Character[]
+  City      City?       @relation(fields: [cityId], references: [id])
+  history   History     @relation(fields: [historyId], references: [id])
 }
 
 model Group {
-  id          Int         @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   behalf      String?
   description String
-  Character   Character[]
+  historyId   Int
+
+  Character Character[]
+  history   History     @relation(fields: [historyId], references: [id])
 }
 
 model Weapon {
@@ -66,5 +92,7 @@ model Weapon {
   power       String
   description String
   characterId Int?       @unique
+  historyId   Int
   character   Character? @relation(fields: [characterId], references: [id])
+  hystory     History    @relation(fields: [historyId], references: [id])
 }

@@ -11,6 +11,7 @@ export class CityService {
       data:{
         name: city.name,
         description: city.description,
+        historyId: city.historyId
       }
     })
   }

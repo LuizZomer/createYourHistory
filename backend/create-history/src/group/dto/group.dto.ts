@@ -13,4 +13,8 @@ export class groupDto {
 
     @IsString()
     description: string;
+
+    @IsInt()
+    @IsOptional()
+    historyId: number
 }

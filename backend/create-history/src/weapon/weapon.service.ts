@@ -12,7 +12,8 @@ export class WeaponService {
         data: {
           name: weapon.name,
           description: weapon.description,
-          power: weapon.power
+          power: weapon.power,
+          historyId: weapon.historyId
         }
       })
 

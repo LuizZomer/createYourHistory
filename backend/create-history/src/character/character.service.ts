@@ -39,7 +39,9 @@ export class CharacterService {
                     weaponId: character.weaponId || null,
                     groupId: character.groupId || null,
                     favoritePlaceId: character.favoritePlaceId || null,
-                    birthPlaceId: character.birthPlace || null
+                    birthPlaceId: character.birthPlace || null,
+                    relationId: character.relationId || null,
+                    historyId: character.historyId
                 }
             })        
 
@@ -56,10 +58,12 @@ export class CharacterService {
     async findManyCharactersService(){
         return await this.prisma.character.findMany({
             include:{
-                Weapon: true,
+                weapon: true,
                 group: true,
                 favoritePlace: true,
-                birthPlace: true
+                birthPlace: true,
+                relations: true,
+                related: true,
             }
         })
     }
@@ -77,7 +81,7 @@ export class CharacterService {
                     personality: character.personality,
                     weaponId: character.weaponId || null,
                     groupId: character.groupId || null,
-                    birthPlaceId: character.birthPlace || null
+                    birthPlaceId: character.birthPlace || null,
                 },
                 where:{
                     id: character.id
@@ -109,7 +113,7 @@ export class CharacterService {
 
         return await this.prisma.character.findFirst({
             include: {
-                Weapon: true
+                weapon: true
             },
             where: {
                 id

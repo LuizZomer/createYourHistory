@@ -12,7 +12,8 @@ export class PlaceService {
       data:{
         name: place.name,
         description: place.description,
-        cityId: place.cityId || null
+        cityId: place.cityId || null,
+        historyId: place.historyId
       }
     }) 
   }

@@ -13,6 +13,7 @@ export class GroupService {
           name: group.name,
           description: group.description,
           behalf: group.behalf,
+          historyId: group.historyId
         }
       })
     }catch(err){

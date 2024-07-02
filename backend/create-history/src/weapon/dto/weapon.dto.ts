@@ -15,5 +15,10 @@ export class weaponDto {
 
     @IsInt()
     @IsOptional()
-    characterId: number
+    characterId: number;
+
+    @IsInt()
+    @IsOptional()
+    historyId: number;
+
 }
