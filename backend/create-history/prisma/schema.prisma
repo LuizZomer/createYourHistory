@@ -21,6 +21,7 @@ model History {
 model Character {
   id              Int    @id @default(autoincrement())
   name            String
+  age             Int?
   description     String
   weaponId        Int?
   birthPlaceId    Int?
@@ -66,7 +67,6 @@ model Place {
   id          Int    @id @default(autoincrement())
   name        String
   description String
-  characterId Int?
   cityId      Int?
   historyId   Int
 
@@ -94,5 +94,5 @@ model Weapon {
   characterId Int?       @unique
   historyId   Int
   character   Character? @relation(fields: [characterId], references: [id])
-  hystory     History    @relation(fields: [historyId], references: [id])
+  history     History    @relation(fields: [historyId], references: [id])
 }

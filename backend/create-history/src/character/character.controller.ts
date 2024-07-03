@@ -1,5 +1,5 @@
 import { CharacterService } from './character.service';
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { CharacterDto } from './dto/character.dto';
 
 @Controller('character')
@@ -28,11 +28,8 @@ export class CharacterController {
         return this.characterService.getById({historyId: +historyId, characterId: +characterId})
     }
 
-    @Delete(':id')
-    delete(@Param('id') id:string){
-        if(Number(id)){
-            return this.characterService.delete(+id)
-        }
-        throw new  BadRequestException('id precisa ser um numero')
+    @Delete(':historyId/:characterId')
+    delete(@Param('historyId') historyId:string, @Param('characterId') characterId:string){
+         return this.characterService.delete({characterId: +characterId, historyId:+historyId })
     }
 }

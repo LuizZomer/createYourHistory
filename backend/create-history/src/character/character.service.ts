@@ -7,6 +7,11 @@ interface IWeaponVerify{
     weaponId: number
 }
 
+interface IGetReq {
+    characterId: number;
+    historyId: number;
+}
+
 @Injectable()
 export class CharacterService {
     constructor(private readonly prisma: PrismaService){}
@@ -57,16 +62,15 @@ export class CharacterService {
 
     async findManyCharactersService(id: number){
         return await this.prisma.character.findMany({
-            include:{
-                weapon: true,
-                group: true,
-                favoritePlace: true,
-                birthPlace: true,
-                relations: true,
-                related: true,
+            select:{
+                id: true,
+                name: true,
+                age: true,
+                description: true,
+                personality: true, 
             },
             where:{
-                historyId: id
+                historyId: id 
             }
         })
     }
@@ -93,14 +97,14 @@ export class CharacterService {
     
             this.weaponVerify({characterId: character.id, weaponId: character.weaponId})
     
-            return {message: "Criado com sucesso"}
+            return {message: "Editado com sucesso"}
         }catch(err){
-            throw new HttpException("Impossivel atulaizar personagem", HttpStatus.INTERNAL_SERVER_ERROR)
+            throw new HttpException("Impossivel atualizar personagem", HttpStatus.INTERNAL_SERVER_ERROR)
         }
         
     }
 
-    async getById({historyId, characterId}: {historyId: number, characterId: number}){
+    async getById({historyId, characterId}:IGetReq){
         const characterIdRes = await this.prisma.character.findFirst({
             select:{
                 id: true
@@ -115,35 +119,51 @@ export class CharacterService {
             throw new HttpException("Id não encontrado", HttpStatus.NOT_FOUND)
         }
 
-        return await this.prisma.character.findFirst({
+        const character =  await this.prisma.character.findFirst({
             include: {
-                weapon: true
+                weapon: true,
+                group: true,
+                favoritePlace: true,
+                birthPlace: true,
+                relations: true,
+                related: true,
             },
             where: {
                 id: characterId,
                 historyId,
             },
         }) 
+
+        const {related, ...characterWithoutRelated} = character
+
+        const correctCharacter = {
+            ...characterWithoutRelated,
+            relations : character.relations.concat(related)
+        }
+
+        return {correctCharacter}
     } 
 
-    async delete(id: number){
-        const characterId = await this.prisma.character.findFirst({
+    async delete({characterId, historyId}: IGetReq){
+        const characterIdRes = await this.prisma.character.findFirst({
             select:{
                 id: true
             },
             where:{
-                id
+                id: characterId,
+                historyId
             }
         })
 
-        if(!characterId){
+        if(!characterIdRes){
             throw new HttpException('Id não correspondente', HttpStatus.BAD_REQUEST)
         }
 
         return await this.prisma.character.delete(
             {
                 where:{
-                    id:id
+                    id: characterId,
+                    historyId
                 }
             }
         )

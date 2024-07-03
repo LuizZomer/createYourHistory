@@ -11,14 +11,14 @@ export class CityController {
     return this.cityService.create(city);
   }
 
-  @Get()
-  findAll() {
-    return this.cityService.findAll();
+  @Get(":historyId")
+  findAll(@Param('historyId') historyId: string) {
+    return this.cityService.findAll(+historyId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cityService.findOne(+id);
+  @Get(':historyId/:cityId')
+  findOne(@Param('historyId') historyId: string, @Param('cityId') cityId: string) {
+    return this.cityService.findOne({cityId: +cityId, historyId: +historyId});
   }
 
   @Put()
@@ -26,8 +26,8 @@ export class CityController {
     return this.cityService.update(city);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cityService.remove(+id);
+  @Delete(':historyId/:cityId')
+  remove(@Param('historyId') historyId: string, @Param('cityId') cityId: string) {
+    return this.cityService.remove({historyId: +historyId, cityId: +cityId});
   }
 }

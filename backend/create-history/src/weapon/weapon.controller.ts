@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, HttpStatus } from '@nestjs/common';
 import { WeaponService } from './weapon.service';
 import { weaponDto } from './dto/weapon.dto';
 
@@ -18,22 +18,18 @@ export class WeaponController {
   }
 
 
-  @Get()
-  findAll() {
-    return this.weaponService.findAll();
+  @Get(':historyId')
+  findAll(@Param('historyId') historyId: string) {
+    return this.weaponService.findAll(+historyId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    const numberId = Number(id)
-    if(!numberId){
-      throw new HttpException("Id precisa ser um número", HttpStatus.BAD_REQUEST)
-    }
-    return this.weaponService.findOne(numberId);
+  @Get(':historyId/:weaponId')
+  findOne(@Param('historyId') historyId: string, @Param('weaponId') weaponId: string) {
+    return this.weaponService.findOne({historyId: +historyId, weaponId: +weaponId});
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.weaponService.remove(+id);
+  @Delete(':historyId/:weaponId')
+  remove(@Param('historyId') historyId: string, @Param('weaponId') weaponId: string) {
+    return this.weaponService.remove({historyId: +historyId, weaponId: +weaponId});
   }
 }

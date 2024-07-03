@@ -2,6 +2,11 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nes
 import { cityDto } from './dto/city.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+interface IGetParam {
+  cityId: number;
+  historyId: number;
+}
+
 @Injectable()
 export class CityService {
   constructor(private readonly prisma: PrismaService){}
@@ -16,21 +21,25 @@ export class CityService {
     })
   }
 
-  async findAll() {
+  async findAll(historyId: number) {
     return await this.prisma.city.findMany({
       include:{
         place: true
+      },
+      where:{
+        historyId
       }
     });
   }
 
-  async findOne(id: number) {
+  async findOne({cityId, historyId}:IGetParam) {
     const city = await this.prisma.city.findFirst({
       include:{
         place: true
       },
       where: {
-        id
+        id: cityId,
+        historyId
       }
     })
 
@@ -69,22 +78,24 @@ export class CityService {
     return {message: "Editado com sucesso" }
   }
 
-  async remove(id: number) {
-    const cityId = await this.prisma.city.findFirst({
+  async remove({cityId, historyId}: IGetParam) {
+    const cityIdRes = await this.prisma.city.findFirst({
       select:{
         id: true
       },
       where:{
-        id
+        id: cityId,
+        historyId
       }
     })
 
-    if(!cityId) 
+    if(!cityIdRes) 
       throw new HttpException("Cidade não encontrado", HttpStatus.NOT_FOUND) 
 
     return await this.prisma.city.delete({
       where: {
-        id
+        id: cityId,
+        historyId
       }
     }) 
   }

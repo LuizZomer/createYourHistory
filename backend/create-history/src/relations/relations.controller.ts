@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
 import { RelationsService } from './relations.service';
 import { relationDto } from './dto/relation.dto';
 
@@ -9,11 +9,6 @@ export class RelationsController {
   @Post()
   create(@Body() relation: relationDto) {
     return this.relationsService.create(relation);
-  }
-
-  @Get()
-  findAll() {
-    return this.relationsService.findAll();
   }
 
   @Delete(':id')

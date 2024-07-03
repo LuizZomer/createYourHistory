@@ -1,36 +1,50 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { placeDto } from './dto/place.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+
+interface IGetParam{
+  historyId: number;
+  placeId: number
+}
 
 @Injectable()
 export class PlaceService {
   constructor(private readonly prisma: PrismaService){}
 
   async create(place: placeDto) {
-    
-    return await this.prisma.place.create({
-      data:{
-        name: place.name,
-        description: place.description,
-        cityId: place.cityId || null,
-        historyId: place.historyId
-      }
-    }) 
+    try{
+      await this.prisma.place.create({
+        data:{
+          name: place.name,
+          description: place.description,
+          cityId: place.cityId || null,
+          historyId: place.historyId
+        }
+      }) 
+  
+      return {message: "Criado com sucesso"}
+    }catch(err){
+      throw new InternalServerErrorException
+    }
   }
 
-  async findAll() {
+  async findAll(historyId: number) {
     return await this.prisma.place.findMany({
       include:{
         City: true,
         character: true
+      },
+      where:{
+        historyId
       }
     });
   }
 
-  async findOne(id: number) {
+  async findOne({historyId, placeId}: IGetParam) {
     const place = await this.prisma.place.findFirst({
       where: {
-        id
+        id: placeId,
+        historyId
       }
     })
 
@@ -70,22 +84,24 @@ export class PlaceService {
     return {message: "Editado com sucesso" }
   }
 
-  async remove(id: number) {
-    const placeId = await this.prisma.place.findFirst({
+  async remove({historyId, placeId}: IGetParam) {
+    const placeIdRes = await this.prisma.place.findFirst({
       select:{
         id: true
       },
       where:{
-        id
+        id: placeId,
+        historyId
       }
     })
 
-    if(!placeId) 
+    if(!placeIdRes) 
       throw new HttpException("Lugar não encontrado", HttpStatus.NOT_FOUND) 
 
     return await this.prisma.place.delete({
       where: {
-        id
+        id: placeId,
+        historyId
       }
     }) 
   }

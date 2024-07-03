@@ -16,18 +16,18 @@ export class GroupController {
     return this.groupService.update(group)
   }
 
-  @Get()
-  findAll() {
-    return this.groupService.findAll();
+  @Get(':historyId')
+  findAll(@Param('historyId') historyId: string) {
+    return this.groupService.findAll(+historyId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.groupService.findOne(+id);
+  @Get(':historyId/:groupId')
+  findOne(@Param('historyId') historyId: string, @Param('groupId') groupId: string) {
+    return this.groupService.findOne({groupId: +groupId, historyId: +historyId});
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.groupService.remove(+id);
+  @Delete(':historyId/:groupId')
+  remove(@Param('historyId') historyId: string, @Param('groupId') groupId: string) {
+    return this.groupService.remove({groupId: +groupId, historyId: +historyId});
   }
 }

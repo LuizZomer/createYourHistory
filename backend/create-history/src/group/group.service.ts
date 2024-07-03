@@ -2,13 +2,18 @@ import { HttpException, HttpStatus, Injectable, InternalServerErrorException } f
 import { groupDto } from './dto/group.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+interface IGetParam{
+  historyId: number;
+  groupId: number
+}
+
 @Injectable()
 export class GroupService {
   constructor(private readonly prisma: PrismaService){}
 
   async create(group: groupDto) {
     try{
-      return await this.prisma.group.create({
+      await this.prisma.group.create({
         data:{
           name: group.name,
           description: group.description,
@@ -16,27 +21,33 @@ export class GroupService {
           historyId: group.historyId
         }
       })
+
+      return {message: "Criado com sucesso"}
     }catch(err){
       throw new InternalServerErrorException
     }
   }
 
-  async findAll() {
+  async findAll(historyId: number) {
     return await this.prisma.group.findMany({
       include:{
         Character: true
+      },
+      where:{
+        historyId
       }
     });
   }
 
-  async findOne(id: number) {
+  async findOne({groupId, historyId}: IGetParam) {
     try{
       const group = await this.prisma.group.findFirst({
         include:{
           Character: true
         },
         where:{
-          id
+          id: groupId,
+          historyId
         }
       })
 
@@ -69,7 +80,7 @@ export class GroupService {
         throw new HttpException("Grupo não encontrada", HttpStatus.NOT_FOUND)
       }
 
-    return await this.prisma.group.update({
+    await this.prisma.group.update({
       data:{
         name: group.name,
         behalf: group.behalf,
@@ -79,22 +90,25 @@ export class GroupService {
         id: group.id
       }
     })
+
+    return {message: "Editado com sucesso"}
   }
 
-  async remove(id: number) {
-    const groupId = await this.prisma.group.findFirst({
+  async remove({groupId, historyId}: IGetParam) {
+    const groupIdRes = await this.prisma.group.findFirst({
       where:{
-        id
+        id: groupId
       }
     })
 
-    if(!groupId){
+    if(!groupIdRes){
       throw new HttpException("Grupo não encontrado", HttpStatus.NOT_FOUND)
     }
 
     return await this.prisma.group.delete({
       where:{
-        id
+        id: groupId,
+        historyId
       }
     })
   }

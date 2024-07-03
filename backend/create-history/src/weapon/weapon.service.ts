@@ -2,6 +2,11 @@ import { HttpException, HttpStatus, Injectable, InternalServerErrorException } f
 import { weaponDto } from './dto/weapon.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+interface IGetParam {
+  historyId: number;
+  weaponId: number;
+}
+
 @Injectable()
 export class WeaponService {
   constructor(private readonly prisma:PrismaService){}
@@ -24,19 +29,23 @@ export class WeaponService {
     }
   }
 
-  async findAll() {
+  async findAll(historyId: number) {
     return await this.prisma.weapon.findMany({
       include: {
         character: true
+      },
+      where:{
+        historyId
       }
     })
   }
 
-  async findOne(id: number) {
+  async findOne({historyId, weaponId}: IGetParam) {
     try{
       const weapon = await this.prisma.weapon.findFirst({
         where:{
-          id
+          id: weaponId,
+          historyId
         }
       })
 
@@ -65,7 +74,7 @@ export class WeaponService {
         throw new HttpException("Arma não encontrada", HttpStatus.NOT_FOUND)
       }
 
-    return await this.prisma.weapon.update({
+    await this.prisma.weapon.update({
       data:{
         name: weapon.name,
         power: weapon.power,
@@ -76,22 +85,29 @@ export class WeaponService {
         id: weapon.id
       }
     })
+
+    return {message: "Editada com sucesso"}
   }
 
-  async remove(id: number) {
-    const weaponId = await this.prisma.weapon.findFirst({
+  async remove({historyId, weaponId}: IGetParam) {
+    const weaponIdRes = await this.prisma.weapon.findFirst({
+      select:{
+        id: true
+      },
       where:{
-        id
+        id: weaponId,
+        historyId
       }
     })
 
-    if(!weaponId){
+    if(!weaponIdRes){
       throw new HttpException("Arma não encontrada", HttpStatus.NOT_FOUND)
     }
 
     return await this.prisma.weapon.delete({
       where:{
-        id
+        id: weaponId,
+        historyId
       }
     })
 

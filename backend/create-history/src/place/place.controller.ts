@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, HttpStatus } from '@nestjs/common';
 import { PlaceService } from './place.service';
 import {  placeDto } from './dto/place.dto';
 
@@ -6,19 +6,20 @@ import {  placeDto } from './dto/place.dto';
 export class PlaceController {
   constructor(private readonly placeService: PlaceService) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @Post()
   create(@Body() createPlaceDto: placeDto) {
     return this.placeService.create(createPlaceDto);
   }
 
-  @Get()
-  findAll() {
-    return this.placeService.findAll();
+  @Get(':historyId')
+  findAll(@Param('historyId') historyId: string) {
+    return this.placeService.findAll(+historyId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.placeService.findOne(+id);
+  @Get(':historyId/:placeId')
+  findOne(@Param('historyId') historyId: string, @Param('placeId') placeId: string) {
+    return this.placeService.findOne({historyId: +historyId, placeId: +placeId});
   }
 
   @Put()
@@ -26,8 +27,8 @@ export class PlaceController {
     return this.placeService.update(place);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.placeService.remove(+id);
+  @Delete(':historyId/:placeId')
+  remove(@Param('historyId') historyId: string, @Param('placeId') placeId: string) {
+    return this.placeService.remove({historyId: +historyId, placeId: +placeId});
   }
 }

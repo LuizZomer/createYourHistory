@@ -23,10 +23,6 @@ export class RelationsService {
 
   }
 
-  async findAll() {
-    return await this.prisma.relations.findMany();
-  }
-
   async remove(id: number) {
     const relationId = await this.prisma.relations.findFirst({
       select:{
