@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { api } from "../../../services/api";
-import { ActivityIndicator, Card } from "react-native-paper";
+import { ActivityIndicator, Card, FAB } from "react-native-paper";
 import * as Styles from "./styles";
 import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -17,7 +17,7 @@ export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
 
   const handleClick = (id: number) => {
     setHistoryId(id);
-    navigation.navigate("Detalhes");
+    navigation.navigate("historyDetails");
   };
 
   const reqHistory = async () => {
@@ -51,6 +51,18 @@ export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
           )}
         />
       )}
+      <Styles.FabStyled
+        icon="plus"
+        color="red"
+        rippleColor="red"
+        background={{
+          color: "red",
+          borderless: false,
+          radius: 0,
+          foreground: true,
+        }}
+        onPress={() => navigation.navigate("historyCreate")}
+      />
     </Styles.Container>
   );
 };
