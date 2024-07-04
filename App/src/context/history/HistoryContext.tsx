@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const HistoryContext = createContext<IHistoryContext | null>(null);
+export const HistoryContext = createContext<IHistoryContext>(null!);
