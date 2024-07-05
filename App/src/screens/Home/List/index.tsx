@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { api } from "../../../services/api";
 import { ActivityIndicator, Card, FAB } from "react-native-paper";
@@ -7,8 +7,11 @@ import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../../App";
 import { CardContainer } from "../../../styles/GlobalStyles";
+import { useFocusEffect } from "@react-navigation/native";
+import { HistoryStackParamList } from "../../../routes/history";
 
-type HistoriasScreenNavigationProp = NativeStackScreenProps<RootStackParamList>;
+type HistoriasScreenNavigationProp =
+  NativeStackScreenProps<HistoryStackParamList>;
 
 export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
   const { setHistoryId } = useHistoryContext();
@@ -29,9 +32,11 @@ export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    reqHistory();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      reqHistory();
+    }, [])
+  );
 
   return (
     <Styles.Container>

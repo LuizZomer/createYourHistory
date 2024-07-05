@@ -6,40 +6,31 @@ import { HistoryProvider } from "./src/context/history/HistoryProvider";
 import { HistoryDetails } from "./src/screens/Home/Details";
 import { CharacterList } from "./src/screens/Personagens/List";
 import { HistoryCreate } from "./src/screens/Home/Create";
-
-const Stack = createNativeStackNavigator();
+import Toast from "react-native-toast-message";
+import { HistoryRouter, HistoryStackParamList } from "./src/routes/history";
 
 export type RootStackParamList = {
-  historyList: undefined;
-  historyDetails: undefined;
-  historyCreate: undefined;
-  Personagens: undefined;
+  history: undefined;
+  character: undefined;
 };
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <HistoryProvider>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="historyList">
+          <Stack.Navigator initialRouteName="history">
             <Stack.Screen
-              name="historyList"
-              component={HistoryList}
-              options={{ title: "Histórias" }}
+              name="history"
+              component={HistoryRouter}
+              options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="historyDetails"
-              component={HistoryDetails}
-              options={{ title: "Detalhes da história" }}
-            />
-            <Stack.Screen
-              name="historyCreate"
-              component={HistoryCreate}
-              options={{ title: "Criar história" }}
-            />
-            <Stack.Screen name="Personagens" component={CharacterList} />
+            <Stack.Screen name="character" component={CharacterList} />
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast />
       </SafeAreaProvider>
     </HistoryProvider>
   );

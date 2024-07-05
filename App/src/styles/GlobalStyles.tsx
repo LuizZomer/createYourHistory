@@ -8,3 +8,9 @@ export const CardContainer = styled.View`
 export const CardContentContainer = styled.View`
   gap: 10px;
 `;
+
+export const FormContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;

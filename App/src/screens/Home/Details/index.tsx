@@ -26,7 +26,7 @@ export const HistoryDetails = ({
           <CardContainer key={index}>
             <Card
               onPress={() => {
-                navigation.navigate("Personagens");
+                navigation.navigate("character");
               }}
             >
               <Card.Title title={item.label} />

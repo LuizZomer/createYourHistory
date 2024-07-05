@@ -2,13 +2,20 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { HistoryDetails } from "../screens/Home/Details";
 import { HistoryList } from "../screens/Home/List";
 import { HistoryCreate } from "../screens/Home/Create";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const Drawer = createDrawerNavigator();
+export type HistoryStackParamList = {
+  historyList: undefined;
+  historyDetails: undefined;
+  historyCreate: undefined;
+};
+
+const Stack = createNativeStackNavigator<HistoryStackParamList>();
 
 export const HistoryRouter = () => (
-  <Drawer.Navigator>
-    <Drawer.Screen name="Histórias" component={HistoryList} />
-    <Drawer.Screen name="Detalhes" component={HistoryDetails} />
-    <Drawer.Screen name="Criar Historia" component={HistoryCreate} />
-  </Drawer.Navigator>
+  <Stack.Navigator initialRouteName="historyList">
+    <Stack.Screen name="historyList" component={HistoryList} />
+    <Stack.Screen name="historyDetails" component={HistoryDetails} />
+    <Stack.Screen name="historyCreate" component={HistoryCreate} />
+  </Stack.Navigator>
 );

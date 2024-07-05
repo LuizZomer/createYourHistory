@@ -4,8 +4,21 @@ import { Button, HelperText, TextInput } from "react-native-paper";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../../services/api";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../../App";
+import Toast from "react-native-toast-message";
+import { useState } from "react";
+import { HistoryStackParamList } from "../../../routes/history";
+import { FormContainer } from "../../../styles/GlobalStyles";
 
-export const HistoryCreate = () => {
+type HistoriasCreateScreenNavigationProp =
+  NativeStackScreenProps<HistoryStackParamList>;
+
+export const HistoryCreate = ({
+  navigation,
+}: HistoriasCreateScreenNavigationProp) => {
+  const [onQuery, setOnquery] = useState(false);
+
   const schema = z.object({
     name: z.string().min(1, "Campo obrigatório"),
     description: z.string().min(1, "Campo obrigatório"),
@@ -26,10 +39,25 @@ export const HistoryCreate = () => {
   });
 
   const handleCreate = (data: TFormData) => {
-    // api.post('history',{
-    //   ...data
-    // }).then((res) => {
-    // })
+    setOnquery(true);
+    api
+      .post("history", {
+        ...data,
+      })
+      .then(() => {
+        Toast.show({
+          type: "success",
+          text1: "Criado com sucesso",
+        });
+        navigation.navigate("historyList");
+      })
+      .catch(() => {
+        Toast.show({
+          type: "error",
+          text1: "Falha ao criar",
+        });
+      })
+      .finally(() => setOnquery(false));
   };
 
   return (
@@ -74,7 +102,9 @@ export const HistoryCreate = () => {
           {errors.description?.message}
         </HelperText>
       </View>
-      <Button onPress={handleSubmit(handleCreate)}>Criar</Button>
+      <Button loading={onQuery} onPress={handleSubmit(handleCreate)}>
+        Criar
+      </Button>
     </View>
   );
 };
