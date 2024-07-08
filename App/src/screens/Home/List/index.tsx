@@ -6,44 +6,42 @@ import * as Styles from "./styles";
 import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../../App";
-import { CardContainer } from "../../../styles/GlobalStyles";
+import { CardContainer, LoadingWrapper } from "../../../styles/GlobalStyles";
 import { useFocusEffect } from "@react-navigation/native";
-import { HistoryStackParamList } from "../../../routes/history";
+import { DetailsStackParamList } from "../../../routes/history";
+import { useFetch } from "../../../Hooks/useFetch";
+import { IHistory } from "../../../utils/types";
 
 type HistoriasScreenNavigationProp =
-  NativeStackScreenProps<HistoryStackParamList>;
+  NativeStackScreenProps<DetailsStackParamList>;
 
 export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
+  const { data, loading, refetch } = useFetch<IHistory[]>({
+    route: "/history",
+  });
   const { setHistoryId } = useHistoryContext();
-  const [historyList, setHistoryList] = useState<IHistory[]>([]);
-  const [loading, setLoading] = useState(true);
 
   const handleClick = (id: number) => {
     setHistoryId(id);
     navigation.navigate("historyDetails");
   };
 
-  const reqHistory = async () => {
-    await api
-      .get("/history")
-      .then((res) => {
-        setHistoryList(res.data);
-      })
-      .finally(() => setLoading(false));
-  };
-
   useFocusEffect(
     useCallback(() => {
-      reqHistory();
+      refetch();
     }, [])
   );
 
   return (
     <Styles.Container>
-      {loading && <ActivityIndicator animating={true} color="purple" />}
-      {!loading && !!historyList.length && (
+      {loading && (
+        <LoadingWrapper>
+          <ActivityIndicator animating={true} color="purple" />
+        </LoadingWrapper>
+      )}
+      {!loading && !!data.length && (
         <FlatList
-          data={historyList}
+          data={data}
           renderItem={({ item }) => (
             <CardContainer key={item.id}>
               <Card onPress={() => handleClick(item.id)}>

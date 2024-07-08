@@ -5,14 +5,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "../../../services/api";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../../App";
 import Toast from "react-native-toast-message";
 import { useState } from "react";
-import { HistoryStackParamList } from "../../../routes/history";
+import { DetailsStackParamList } from "../../../routes/history";
 import { FormContainer } from "../../../styles/GlobalStyles";
 
 type HistoriasCreateScreenNavigationProp =
-  NativeStackScreenProps<HistoryStackParamList>;
+  NativeStackScreenProps<DetailsStackParamList>;
 
 export const HistoryCreate = ({
   navigation,
@@ -61,7 +60,7 @@ export const HistoryCreate = ({
   };
 
   return (
-    <View>
+    <FormContainer>
       <View>
         <Controller
           name="name"
@@ -102,9 +101,13 @@ export const HistoryCreate = ({
           {errors.description?.message}
         </HelperText>
       </View>
-      <Button loading={onQuery} onPress={handleSubmit(handleCreate)}>
+      <Button
+        mode="text"
+        loading={onQuery}
+        onPress={handleSubmit(handleCreate)}
+      >
         Criar
       </Button>
-    </View>
+    </FormContainer>
   );
 };

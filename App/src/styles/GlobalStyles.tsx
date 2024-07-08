@@ -12,5 +12,10 @@ export const CardContentContainer = styled.View`
 export const FormContainer = styled.View`
   flex: 1;
   justify-content: center;
-  align-items: center;
+  padding: 10px;
+`;
+
+export const LoadingWrapper = styled.View`
+  flex: 1;
+  justify-content: center;
 `;

@@ -2,30 +2,30 @@ import { useEffect, useState } from "react";
 import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
 import { api } from "../../../services/api";
 import { FlatList, View } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { ActivityIndicator, Card, Text } from "react-native-paper";
 import {
   CardContainer,
   CardContentContainer,
+  LoadingWrapper,
 } from "../../../styles/GlobalStyles";
+import { useFetch } from "../../../Hooks/useFetch";
+import { ICharacter } from "../../../utils/types";
 
 export const CharacterList = () => {
   const { historyId } = useHistoryContext();
-  const [characterList, setCharacterList] = useState<ICharacter[]>([]);
-
-  const reqCharacter = async () => {
-    await api.get(`character/${historyId}`).then((res) => {
-      setCharacterList(res.data);
-    });
-  };
-
-  useEffect(() => {
-    reqCharacter();
-  }, []);
+  const { data, loading, refetch } = useFetch<ICharacter[]>({
+    route: `/character/${historyId}`,
+  });
 
   return (
     <View>
+      {loading && (
+        <LoadingWrapper>
+          <ActivityIndicator animating={true} color="purple" />
+        </LoadingWrapper>
+      )}
       <FlatList
-        data={characterList}
+        data={data}
         renderItem={({ item }) => (
           <CardContainer key={item.id}>
             <Card>
