@@ -4,6 +4,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { HistoryProvider } from "./src/context/history/HistoryProvider";
 import Toast from "react-native-toast-message";
 import { HistoryRouter, DetailsStackParamList } from "./src/routes/history";
+import { initializeApp } from "firebase/app";
+import { FirebaseConfig } from "./src/firebase/init";
 
 export type RootStackParamList = {
   history: undefined;
@@ -11,6 +13,7 @@ export type RootStackParamList = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const app = initializeApp(FirebaseConfig);
 
 export default function App() {
   return (
