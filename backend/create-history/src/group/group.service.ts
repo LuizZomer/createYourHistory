@@ -112,4 +112,13 @@ export class GroupService {
       }
     })
   }
+
+  async selectAllGroup(){
+    return await this.prisma.group.findMany({
+      select:{
+        id:true,
+        name: true
+      }
+    })
+  }
 }

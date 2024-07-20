@@ -23,6 +23,11 @@ export class WeaponController {
     return this.weaponService.findAll(+historyId);
   }
 
+  @Get('/select')
+  selectAllWeapon(){
+    return this.weaponService.selectAllWeapon()
+  }
+
   @Get(':historyId/:weaponId')
   findOne(@Param('historyId') historyId: string, @Param('weaponId') weaponId: string) {
     return this.weaponService.findOne({historyId: +historyId, weaponId: +weaponId});

@@ -168,4 +168,13 @@ export class CharacterService {
             }
         )
     }
+
+    async selectAllCharacter(){
+        return await this.prisma.character.findMany({
+            select:{
+                name: true,
+                id: true
+            }
+        }) 
+    }
 }

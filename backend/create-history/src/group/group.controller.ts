@@ -26,6 +26,11 @@ export class GroupController {
     return this.groupService.findOne({groupId: +groupId, historyId: +historyId});
   }
 
+  @Get('/select')
+  selectAll(){
+    return this.groupService.selectAllGroup()
+  }
+
   @Delete(':historyId/:groupId')
   remove(@Param('historyId') historyId: string, @Param('groupId') groupId: string) {
     return this.groupService.remove({groupId: +groupId, historyId: +historyId});

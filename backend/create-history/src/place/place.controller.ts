@@ -22,6 +22,11 @@ export class PlaceController {
     return this.placeService.findOne({historyId: +historyId, placeId: +placeId});
   }
 
+  @Get('/select')
+  selectAllPlace(){
+    return this.placeService.selectAllPlace()
+  }
+
   @Put()
   update(@Body() place: placeDto) {
     return this.placeService.update(place);

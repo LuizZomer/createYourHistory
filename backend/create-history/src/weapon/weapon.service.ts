@@ -112,5 +112,14 @@ export class WeaponService {
     })
 
   }
+
+  async selectAllWeapon(){
+    return await this.prisma.weapon.findMany({
+      select:{
+        id: true,
+        name: true
+      }
+    })
+  }
 }
  

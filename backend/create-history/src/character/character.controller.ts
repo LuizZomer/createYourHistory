@@ -12,6 +12,11 @@ export class CharacterController {
         return this.characterService.findManyCharactersService(+id)
     }
 
+    @Get("/select")
+    selectCharacter(){
+        return this.characterService.selectAllCharacter()
+    }
+
     @HttpCode(HttpStatus.CREATED)
     @Post()
     createCharacter(@Body() character: CharacterDto ){

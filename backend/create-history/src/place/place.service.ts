@@ -105,4 +105,13 @@ export class PlaceService {
       }
     }) 
   }
+
+  async selectAllPlace(){
+    return await this.prisma.place.findMany({
+      select:{
+        id: true,
+        name: true
+      }
+    })
+  }
 }

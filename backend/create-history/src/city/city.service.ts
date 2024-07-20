@@ -99,4 +99,13 @@ export class CityService {
       }
     }) 
   }
+
+  async selectAllCharacter(){
+    return await this.prisma.city.findMany({
+      select: {
+        name: true,
+        id: true
+      }
+    })
+  }
 }

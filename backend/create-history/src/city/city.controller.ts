@@ -11,6 +11,11 @@ export class CityController {
     return this.cityService.create(city);
   }
 
+  @Get('/select')
+  selectCity(){
+    return this.cityService.selectAllCharacter()
+  }
+
   @Get(":historyId")
   findAll(@Param('historyId') historyId: string) {
     return this.cityService.findAll(+historyId);
