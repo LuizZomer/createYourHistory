@@ -113,11 +113,14 @@ export class GroupService {
     })
   }
 
-  async selectAllGroup(){
+  async selectAllGroup(historyId: number){
     return await this.prisma.group.findMany({
       select:{
         id:true,
         name: true
+      }, 
+      where:{
+        historyId
       }
     })
   }

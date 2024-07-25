@@ -12,9 +12,9 @@ export class CharacterController {
         return this.characterService.findManyCharactersService(+id)
     }
 
-    @Get("/select")
-    selectCharacter(){
-        return this.characterService.selectAllCharacter()
+    @Get("/select/:historyId")
+    selectCharacter(@Param('historyId') historyId: string){
+        return this.characterService.selectAllCharacter(+historyId)
     }
 
     @HttpCode(HttpStatus.CREATED)

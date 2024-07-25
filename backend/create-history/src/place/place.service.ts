@@ -106,11 +106,14 @@ export class PlaceService {
     }) 
   }
 
-  async selectAllPlace(){
+  async selectAllPlace(historyId: number){
     return await this.prisma.place.findMany({
       select:{
         id: true,
         name: true
+      },
+      where: {
+        historyId
       }
     })
   }

@@ -169,11 +169,14 @@ export class CharacterService {
         )
     }
 
-    async selectAllCharacter(){
+    async selectAllCharacter(historyId: number){
         return await this.prisma.character.findMany({
             select:{
                 name: true,
                 id: true
+            },
+            where:{
+                historyId
             }
         }) 
     }

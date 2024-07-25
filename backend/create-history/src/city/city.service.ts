@@ -100,11 +100,14 @@ export class CityService {
     }) 
   }
 
-  async selectAllCharacter(){
+  async selectAllCharacter(historyId: number){
     return await this.prisma.city.findMany({
       select: {
         name: true,
         id: true
+      },
+      where:{
+        historyId
       }
     })
   }

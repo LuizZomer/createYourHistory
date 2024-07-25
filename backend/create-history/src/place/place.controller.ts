@@ -12,6 +12,11 @@ export class PlaceController {
     return this.placeService.create(createPlaceDto);
   }
 
+  @Get('/select/:historyId')
+  selectAllPlace(@Param('historyId') historyId: string){
+    return this.placeService.selectAllPlace(+historyId)
+  }
+
   @Get(':historyId')
   findAll(@Param('historyId') historyId: string) {
     return this.placeService.findAll(+historyId);
@@ -22,10 +27,6 @@ export class PlaceController {
     return this.placeService.findOne({historyId: +historyId, placeId: +placeId});
   }
 
-  @Get('/select')
-  selectAllPlace(){
-    return this.placeService.selectAllPlace()
-  }
 
   @Put()
   update(@Body() place: placeDto) {

@@ -113,11 +113,14 @@ export class WeaponService {
 
   }
 
-  async selectAllWeapon(){
+  async selectAllWeapon(historyId: number){
     return await this.prisma.weapon.findMany({
       select:{
         id: true,
         name: true
+      },
+      where:{
+        historyId
       }
     })
   }

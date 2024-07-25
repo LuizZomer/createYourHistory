@@ -11,21 +11,20 @@ export class WeaponController {
   create(@Body() weapon: weaponDto) {
     return this.weaponService.create(weapon);
   }
+  
+  @Get('/select/:historyId')
+  selectAllWeapon(@Param('historyId') historyId: string){
+    return this.weaponService.selectAllWeapon(+historyId)
+  }
 
   @Put()
   update(@Body() weapon: weaponDto) {
     return this.weaponService.update(weapon);
   }
 
-
   @Get(':historyId')
   findAll(@Param('historyId') historyId: string) {
     return this.weaponService.findAll(+historyId);
-  }
-
-  @Get('/select')
-  selectAllWeapon(){
-    return this.weaponService.selectAllWeapon()
   }
 
   @Get(':historyId/:weaponId')

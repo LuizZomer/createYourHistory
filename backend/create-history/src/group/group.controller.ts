@@ -16,6 +16,11 @@ export class GroupController {
     return this.groupService.update(group)
   }
 
+  @Get('/select/:historyId')
+  selectAll(@Param('historyId') historyId: string){
+    return this.groupService.selectAllGroup(+historyId)    
+  }
+
   @Get(':historyId')
   findAll(@Param('historyId') historyId: string) {
     return this.groupService.findAll(+historyId);
@@ -24,11 +29,6 @@ export class GroupController {
   @Get(':historyId/:groupId')
   findOne(@Param('historyId') historyId: string, @Param('groupId') groupId: string) {
     return this.groupService.findOne({groupId: +groupId, historyId: +historyId});
-  }
-
-  @Get('/select')
-  selectAll(){
-    return this.groupService.selectAllGroup()
   }
 
   @Delete(':historyId/:groupId')
