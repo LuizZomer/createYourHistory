@@ -39,7 +39,7 @@ export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
           <ActivityIndicator animating={true} color="purple" />
         </LoadingWrapper>
       )}
-      {!loading && !!data.length && (
+      {!loading && data && !!data.length && (
         <FlatList
           data={data}
           renderItem={({ item }) => (
