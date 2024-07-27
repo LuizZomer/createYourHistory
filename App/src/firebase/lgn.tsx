@@ -16,10 +16,15 @@ const Login: React.FC<Props> = ({ navigation }) => {
     const [mail,setMail] = React.useState("");
     const [senha,setSenha] = React.useState("");
 
-    function handleClick(){
+    async function handleClick(){
 
-        
-        return (navigation.navigate('history'))
+        const result = await FireLogin(mail,senha)
+        if (result){
+            navigation.navigate('history')
+        }
+        else {
+            alert("erro ao realizar login")
+        }
     }
 
     

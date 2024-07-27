@@ -1,9 +1,14 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { getAuth, initializeAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
-export default function FireLogin(email: string, password:string){
+
+export default async function FireLogin(email: string, password:string){
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
+    const retencao = initializeAuth(firebaseApp,{
+        persistence:getReactNativePersistence(ReactNativeAsyncStorage),
+    })
+    return await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
         return true
