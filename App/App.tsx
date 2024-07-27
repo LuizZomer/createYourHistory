@@ -6,8 +6,10 @@ import Toast from "react-native-toast-message";
 import { HistoryRouter, DetailsStackParamList } from "./src/routes/history";
 import { initializeApp } from "firebase/app";
 import { FirebaseConfig } from "./src/firebase/init";
+import Login from "./src/firebase/lgn";
 
 export type RootStackParamList = {
+  lgn:undefined,
   history: undefined;
   character: undefined;
 };
@@ -20,7 +22,12 @@ export default function App() {
     <HistoryProvider>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="history">
+          <Stack.Navigator initialRouteName="lgn">
+            <Stack.Screen
+              name="lgn"
+              component={Login}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="history"
               component={HistoryRouter}
