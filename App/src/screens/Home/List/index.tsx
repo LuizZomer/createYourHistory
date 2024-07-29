@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, Text, View } from "react-native";
-import { api } from "../../../services/api";
 import { ActivityIndicator, Card, FAB } from "react-native-paper";
 import * as Styles from "./styles";
 import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../../App";
-import { CardContainer, LoadingWrapper } from "../../../styles/GlobalStyles";
+import {
+  CardContainer,
+  Container,
+  LoadingWrapper,
+} from "../../../styles/GlobalStyles";
 import { useFocusEffect } from "@react-navigation/native";
 import { DetailsStackParamList } from "../../../routes/history";
 import { useFetch } from "../../../Hooks/useFetch";
@@ -33,7 +36,7 @@ export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
   );
 
   return (
-    <Styles.Container>
+    <Container>
       {loading && (
         <LoadingWrapper>
           <ActivityIndicator animating={true} color="purple" />
@@ -66,6 +69,6 @@ export const HistoryList = ({ navigation }: HistoriasScreenNavigationProp) => {
         }}
         onPress={() => navigation.navigate("historyCreate")}
       />
-    </Styles.Container>
+    </Container>
   );
 };

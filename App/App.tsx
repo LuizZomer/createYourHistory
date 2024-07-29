@@ -9,7 +9,7 @@ import { FirebaseConfig } from "./src/firebase/init";
 import Login from "./src/firebase/lgn";
 
 export type RootStackParamList = {
-  lgn:undefined,
+  lgn: undefined;
   history: undefined;
   character: undefined;
 };
@@ -22,7 +22,7 @@ export default function App() {
     <HistoryProvider>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="lgn">
+          <Stack.Navigator initialRouteName="history">
             <Stack.Screen
               name="lgn"
               component={Login}

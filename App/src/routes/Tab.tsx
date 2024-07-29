@@ -1,10 +1,9 @@
-import { HistoryDetails } from "../screens/Home/Details";
-import { HistoryCreate } from "../screens/Home/Create";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CharacterList } from "../screens/Personagens/List";
 import { WeaponList } from "../screens/Weapon/List";
 import { CityList } from "../screens/City/List";
 import { Icon } from "react-native-paper";
+import { CharacterRouter } from "./character";
 
 export type CharacterTabParamList = {
   characterList: undefined;
@@ -18,9 +17,9 @@ export const TabsRouter = () => (
   <Tab.Navigator>
     <Tab.Screen
       name="characterList"
-      component={CharacterList}
+      component={CharacterRouter}
       options={{
-        title: "Personagens",
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <Icon source="account" color={color} size={size} />
         ),

@@ -33,3 +33,8 @@ export interface ICity {
     description: string;
     place: IPlace[];
 }
+
+export interface ISelect {
+    id: number;
+    name: string;
+}
