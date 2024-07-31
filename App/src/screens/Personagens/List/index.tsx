@@ -40,7 +40,11 @@ export const CharacterList = ({
         data={data}
         renderItem={({ item }) => (
           <CardContainer key={item.id}>
-            <Card>
+            <Card
+              onPress={() =>
+                navigation.navigate("CharacterDetails", { id: item.id })
+              }
+            >
               <Card.Title title={item.name} />
               <Card.Content>
                 <CardContentContainer>

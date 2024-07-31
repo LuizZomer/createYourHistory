@@ -238,7 +238,7 @@ export const CreateCharacter = ({
               control={control}
               render={({ field }) => (
                 <RNPickerSelect
-                  onValueChange={(value) => console.log(value)}
+                  onValueChange={(value) => field.onChange(value)}
                   placeholder={{ label: "Grupo" }}
                   items={groupList.map(({ id, name }) => ({
                     label: name,

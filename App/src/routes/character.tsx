@@ -14,14 +14,22 @@ import Toast from "react-native-toast-message";
 import { useState } from "react";
 import { CharacterList } from "../screens/Personagens/List";
 import { CreateCharacter } from "../screens/Personagens/Create";
+import { CharacterDetails } from "../screens/Personagens/Details";
 
 export type characterStackParamList = {
   CharacterList: undefined;
-  CharacterDetails: undefined;
+  CharacterDetails: {
+    id: number;
+  };
   CharacterCreate: undefined;
 };
 
 const Stack = createNativeStackNavigator<characterStackParamList>();
+
+export type CharacterDetailsProps = NativeStackScreenProps<
+  characterStackParamList,
+  "CharacterDetails"
+>;
 
 export type characterScreenNavigationProp =
   NativeStackScreenProps<characterStackParamList>;
@@ -36,9 +44,9 @@ export const CharacterRouter = () => {
       />
       <Stack.Screen
         name="CharacterDetails"
-        component={TabsRouter}
+        component={CharacterDetails}
         options={{
-          title: "Detalhes da historia",
+          title: "Detalhes da personagem",
         }}
       />
       <Stack.Screen

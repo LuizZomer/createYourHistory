@@ -10,6 +10,18 @@ export interface ICharacter {
     description: string;
     age: number;
     personality: string;
+    weapon: IWeapon;
+    birthPlace: ICity;
+    favoritePlace: IPlace;
+    group: IGroup;
+}
+
+export interface IGroup {
+    id: number
+    name: string;
+    behalf: string;
+    description: string;
+    Character: ICharacter[]
 }
 
 export interface IWeapon {
