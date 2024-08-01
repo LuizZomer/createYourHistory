@@ -1,5 +1,5 @@
 import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
-import { FlatList, View } from "react-native";
+import { FlatList } from "react-native";
 import { ActivityIndicator, Card, Text } from "react-native-paper";
 import {
   CardContainer,
@@ -10,7 +10,6 @@ import {
 import { useFetch } from "../../../Hooks/useFetch";
 import { ICharacter } from "../../../utils/types";
 import * as Styles from "./styles";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { characterScreenNavigationProp } from "../../../routes/character";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";

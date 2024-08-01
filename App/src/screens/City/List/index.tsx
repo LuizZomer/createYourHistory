@@ -1,32 +1,69 @@
-import { View } from "react-native";
 import { useHistoryContext } from "../../../context/history/UseHistoryProvider";
+import { FlatList } from "react-native";
+import { ActivityIndicator, Card, Text } from "react-native-paper";
+import {
+  CardContainer,
+  CardContentContainer,
+  Container,
+  LoadingWrapper,
+} from "../../../styles/GlobalStyles";
 import { useFetch } from "../../../Hooks/useFetch";
 import { ICity } from "../../../utils/types";
-import { ActivityIndicator, Card } from "react-native-paper";
-import { CardContainer, LoadingWrapper } from "../../../styles/GlobalStyles";
+import * as Styles from "./styles";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
+import { cityScreenNavigationProp } from "../../../routes/city";
 
-export const CityList = () => {
+export const CityList = ({ navigation }: cityScreenNavigationProp) => {
   const { historyId } = useHistoryContext();
   const { data, loading, refetch } = useFetch<ICity[]>({
     route: `/city/${historyId}`,
   });
 
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
+
   return (
-    <View>
+    <Container>
       {loading && (
         <LoadingWrapper>
           <ActivityIndicator animating={true} color="purple" />
         </LoadingWrapper>
       )}
-      {!loading &&
-        !!data.length &&
-        data.map(({ id, name }) => (
-          <CardContainer key={id}>
-            <Card>
-              <Card.Title title={name} />
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <CardContainer key={item.id}>
+            <Card
+              onPress={() =>
+                navigation.navigate("CityDetails", { id: item.id })
+              }
+            >
+              <Card.Title title={item.name} />
+              <Card.Content>
+                <CardContentContainer>
+                  <Text>{item.description}</Text>
+                </CardContentContainer>
+              </Card.Content>
             </Card>
           </CardContainer>
-        ))}
-    </View>
+        )}
+      />
+      <Styles.FabStyled
+        icon="plus"
+        color="red"
+        rippleColor="red"
+        background={{
+          color: "red",
+          borderless: false,
+          radius: 0,
+          foreground: true,
+        }}
+        onPress={() => navigation.navigate("CityCreate")}
+      />
+    </Container>
   );
 };

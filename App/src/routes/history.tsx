@@ -63,7 +63,7 @@ export const HistoryRouter = ({ navigation }: DetailsScreenNavigationProp) => {
               <Button onPress={handleDelete}>
                 <Icon size={25} source="trash-can-outline" />
               </Button>
-              <Button onPress={handleDelete}>
+              <Button onPress={() => ""}>
                 <Icon size={25} source="pencil" />
               </Button>
             </>
